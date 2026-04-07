@@ -5,3 +5,4 @@ python-dotenv
 langchain-groq
 gradio
 langchain-core>=0.3.0
+requests
