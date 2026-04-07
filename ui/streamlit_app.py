@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+
 from app.services.member_service import get_member
 from app.services.partner_config import get_partner_config
 from app.services.recommendation import generate_recommendations
