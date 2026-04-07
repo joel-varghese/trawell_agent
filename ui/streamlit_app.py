@@ -1,13 +1,12 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-
-from app.services.member_service import get_member
-from app.services.partner_config import get_partner_config
-from app.services.recommendation import generate_recommendations
+import requests
 import streamlit as st
+from dotenv import load_dotenv
 import uuid
 
+load_dotenv()
 st.set_page_config(
     page_title="AI Travel Concierge",
     page_icon="✈️",
@@ -59,10 +58,19 @@ with col1:
 with col2:
     if fetch_btn:
         with st.spinner("Fetching recommendations…"):
-            member = get_member(member_id)
-            rules = get_partner_config(member["partner_id"])
-            recs = generate_recommendations(member, rules)
-            st.session_state.data = {"member": member, "rules": rules, "recs": recs}
+            res = requests.post(
+                "https://wanderops-backend.vercel.app/tools/call",
+                json ={
+                    "name": "get_travel_recommendations",
+                    "arguments": {"member_id": member_id}
+                }
+            )
+            data = res.json()
+            st.session_state.data = {
+                "member": data.get("member"),
+                "rules": data.get("rules"),
+                "recs": data.get("recommendations"),
+            }
             st.session_state.show_recs = True
  
     if st.session_state.data:
