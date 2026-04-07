@@ -1,0 +1,7 @@
+streamlit>=1.32.0
+langgraph>=0.2.0
+langchain>=0.3.0
+python-dotenv
+langchain-groq
+gradio
+langchain-core>=0.3.0
